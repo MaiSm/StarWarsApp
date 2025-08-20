@@ -17,8 +17,8 @@ public class ResourceController {
     @GetMapping("/{resource}")
     public SwapiResponse getResources(
             @PathVariable String resource,
-            @RequestParam int page,
-            @RequestParam int limit,
+            @RequestParam(defaultValue = "1") int page,
+            @RequestParam(defaultValue = "10") int limit,
             @RequestParam(required = false) String name) {
         return service.getResources(resource, page, limit, name);
     }

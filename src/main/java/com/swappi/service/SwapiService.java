@@ -13,14 +13,20 @@ public class SwapiService {
     private static final String BASE = "https://www.swapi.tech/api";
 
     public SwapiResponse getResources(String resource, Integer page, Integer limit, String name) {
+        SwapiResponse response = new SwapiResponse();
+
         UriComponentsBuilder uri = UriComponentsBuilder.fromHttpUrl(BASE + "/" + resource)
-                .queryParam("page", page == null ? 1 : page)
-                .queryParam("limit", limit == null ? 10 : limit);
+                .queryParam("page", page)
+                .queryParam("limit", limit);
         if (name != null && !name.isEmpty()) {
             uri.queryParam("name", name);
         }
         ResponseEntity<SwapiResponse> resp = restTemplate.getForEntity(uri.toUriString(), SwapiResponse.class);
-        return resp.getBody();
+
+        response = resp.getBody();
+        response.setCurrent_page(page);
+
+        return response;
     }
 
     public Object getById(String resource, String id) {
