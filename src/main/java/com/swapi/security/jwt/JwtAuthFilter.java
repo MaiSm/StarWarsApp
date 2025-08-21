@@ -1,4 +1,4 @@
-package com.swappi.security.jwt;
+package com.swapi.security.jwt;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;

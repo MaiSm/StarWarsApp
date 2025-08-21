@@ -1,4 +1,4 @@
-package com.swappi.security.dto;
+package com.swapi.security.dto;
 
 public class LoginResponse {
     private String token;

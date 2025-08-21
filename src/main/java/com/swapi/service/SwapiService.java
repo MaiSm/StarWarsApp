@@ -1,8 +1,8 @@
-package com.swappi.service;
+package com.swapi.service;
 
-import com.swappi.dto.SwapiFilterResponse;
-import com.swappi.dto.SwapiResponse;
-import com.swappi.dto.SwapiResult;
+import com.swapi.dto.SwapiFilterResponse;
+import com.swapi.dto.SwapiResponse;
+import com.swapi.dto.SwapiResult;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;

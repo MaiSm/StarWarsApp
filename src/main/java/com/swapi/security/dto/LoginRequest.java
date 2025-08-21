@@ -1,4 +1,4 @@
-package com.swappi.security.dto;
+package com.swapi.security.dto;
 
 public class LoginRequest {
     private String username;

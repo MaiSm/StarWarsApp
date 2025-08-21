@@ -1,4 +1,4 @@
-package com.swappi.dto;
+package com.swapi.dto;
 
 import java.util.List;
 

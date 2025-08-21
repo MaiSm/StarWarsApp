@@ -1,4 +1,4 @@
-package com.swappi.security.jwt;
+package com.swapi.security.jwt;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

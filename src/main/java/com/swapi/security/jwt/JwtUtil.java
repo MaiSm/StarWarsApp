@@ -1,4 +1,4 @@
-package com.swappi.security.jwt;
+package com.swapi.security.jwt;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;

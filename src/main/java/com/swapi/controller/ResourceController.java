@@ -1,8 +1,8 @@
-package com.swappi.controller;
+package com.swapi.controller;
 
-import com.swappi.dto.SwapiFilterResponse;
-import com.swappi.dto.SwapiResponse;
-import com.swappi.service.SwapiService;
+import com.swapi.dto.SwapiFilterResponse;
+import com.swapi.dto.SwapiResponse;
+import com.swapi.service.SwapiService;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -11,9 +11,7 @@ public class ResourceController {
 
     private final SwapiService service;
 
-    public ResourceController(SwapiService service) {
-        this.service = service;
-    }
+    public ResourceController(SwapiService service) {this.service = service;}
 
     @GetMapping("/{resource}")
     public SwapiResponse getResources(

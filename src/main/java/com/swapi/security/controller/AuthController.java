@@ -1,8 +1,8 @@
-package com.swappi.security.controller;
+package com.swapi.security.controller;
 
-import com.swappi.security.dto.LoginRequest;
-import com.swappi.security.dto.LoginResponse;
-import com.swappi.security.jwt.JwtUtil;
+import com.swapi.security.dto.LoginRequest;
+import com.swapi.security.dto.LoginResponse;
+import com.swapi.security.jwt.JwtUtil;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.BadCredentialsException;
