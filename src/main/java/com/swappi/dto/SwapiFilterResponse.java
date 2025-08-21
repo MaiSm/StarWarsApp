@@ -1,7 +1,6 @@
 package com.swappi.dto;
 
 import java.util.List;
-import java.util.Map;
 
 public class SwapiFilterResponse {
     public int total_records;

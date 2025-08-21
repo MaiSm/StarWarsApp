@@ -9,7 +9,4 @@ public class SwapiResponse {
     public int current_page;
     public List<Map<String,Object>> results;
 
-    public void setCurrent_page(int current_page) {
-        this.current_page = current_page;
-    }
 }
