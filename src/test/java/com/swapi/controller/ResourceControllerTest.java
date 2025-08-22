@@ -11,6 +11,8 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 import com.swapi.util.TestUtil;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 
 @ExtendWith(MockitoExtension.class)
 class ResourceControllerTest {
@@ -30,7 +32,11 @@ class ResourceControllerTest {
         SwapiResponse mockResponse = TestUtil.mockSwapiResponse();
         when(swapiService.getResources(resource, page, limit)).thenReturn(mockResponse);
 
-        SwapiResponse response = controller.getResources(resource, page, limit);
+        ResponseEntity<?> responseEntity = controller.getResources(resource, page, limit);
+        assertNotNull(responseEntity);
+        assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
+
+        SwapiResponse response = (SwapiResponse) responseEntity.getBody();
 
         assertNotNull(response);
         assertEquals(2, response.results.size());
@@ -48,7 +54,11 @@ class ResourceControllerTest {
         SwapiFilterResponse mockResponse = TestUtil.mockSwapiFilterResponse();
         when(swapiService.getResourcesByName(resource, page, limit, name)).thenReturn(mockResponse);
 
-        SwapiFilterResponse response = controller.getResourcesByName(resource, name, page, limit);
+        ResponseEntity<?> responseEntity = controller.getResourcesByName(resource, name, page, limit);
+        assertNotNull(responseEntity);
+        assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
+
+        SwapiFilterResponse response = (SwapiFilterResponse) responseEntity.getBody();
 
         assertNotNull(response);
         assertEquals(1, response.total_records);

@@ -9,6 +9,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.userdetails.User;
@@ -49,15 +50,19 @@ class AuthControllerTest {
 
         when(userDetailsService.loadUserByUsername("luke")).thenReturn(mockUser);
 
-        ResponseEntity<LoginResponse> response = authController.login(req);
+        ResponseEntity<?> response = authController.login(req);
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertTrue(response.getBody() instanceof LoginResponse);
 
+        LoginResponse loginResponse = (LoginResponse) response.getBody();
+        assertNotNull(loginResponse.getToken());
         assertNotNull(response);
         assertEquals(200, response.getStatusCodeValue());
-        assertNotNull(response.getBody());
-        assertNotNull(response.getBody().getToken());
-        assertFalse(response.getBody().getToken().isEmpty());
+        assertNotNull(loginResponse);
+        assertNotNull(loginResponse.getToken());
+        assertFalse(loginResponse.getToken().isEmpty());
 
-        String token = response.getBody().getToken();
+        String token = loginResponse.getToken();
         String username = io.jsonwebtoken.Jwts.parser()
                 .setSigningKey(secret.getBytes())
                 .parseClaimsJws(token)
