@@ -13,9 +13,9 @@ public class TestUtil {
 
     public static SwapiResponse mockSwapiResponse() {
         SwapiResponse response = new SwapiResponse();
-        response.total_records = 2;
-        response.total_pages = 1;
-        response.current_page = 1;
+        response.setTotal_records(2);
+        response.setTotal_pages(1);
+        response.setCurrent_page(1);
 
         Map<String, Object> luke = new HashMap<>();
         luke.put("uid", "1");
@@ -27,28 +27,28 @@ public class TestUtil {
         c3po.put("name", "C-3PO");
         c3po.put("url", "https://www.swapi.tech/api/people/2");
 
-        response.results = Arrays.asList(luke, c3po);
+        response.setResults(Arrays.asList(luke, c3po));
 
         return response;
     }
 
     public static SwapiFilterResponse mockSwapiFilterResponse() {
         SwapiFilterResponse response = new SwapiFilterResponse();
-        response.total_records = 1;
-        response.total_pages = 1;
-        response.current_page = 1;
+        response.setTotal_records(1);
+        response.setTotal_pages(1);
+        response.setCurrent_page(1);
 
         SwapiResult result = new SwapiResult();
-        result._id = "5f63a36eee9fd7000499be42";
-        result.uid = "1";
-        result.description = "A person within the Star Wars universe";
+        result.set_id("5f63a36eee9fd7000499be42");
+        result.setUid("1");
+        result.setDescription("A person within the Star Wars universe");
 
         Map<String, Object> properties = new HashMap<>();
         properties.put("name", "Luke Skywalker");
         properties.put("gender", "male");
 
-        result.properties = properties;
-        response.result = Collections.singletonList(result);
+        result.setProperties(properties);
+        response.setResult(Collections.singletonList(result));
 
         return response;
     }

@@ -33,7 +33,6 @@ class AuthControllerTest {
 
     @BeforeEach
     void setup() throws Exception {
-        // Setear valores de @Value con Reflection
         java.lang.reflect.Field secretField = AuthController.class.getDeclaredField("secret");
         secretField.setAccessible(true);
         secretField.set(authController, secret);

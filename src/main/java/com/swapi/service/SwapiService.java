@@ -24,10 +24,15 @@ public class SwapiService {
         UriComponentsBuilder uri = UriComponentsBuilder.fromHttpUrl(BASE + "/" + resource)
                 .queryParam("page", page)
                 .queryParam("limit", limit);
-        System.out.println("URL -> " + uri.toUriString());
-        ResponseEntity<SwapiResponse> response = restTemplate.getForEntity(uri.toUriString(), SwapiResponse.class);
 
-        return response.getBody();
+        ResponseEntity<SwapiResponse> response = restTemplate.getForEntity(uri.toUriString(), SwapiResponse.class);
+        SwapiResponse body = response.getBody();
+
+        if(body != null){
+            body.setCurrent_page(page);
+        }
+
+        return body;
     }
 
     public SwapiFilterResponse getResourcesByName(String resource, Integer page, Integer limit, String name) {

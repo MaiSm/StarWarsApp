@@ -39,8 +39,8 @@ class ResourceControllerTest {
         SwapiResponse response = (SwapiResponse) responseEntity.getBody();
 
         assertNotNull(response);
-        assertEquals(2, response.results.size());
-        assertEquals("Luke Skywalker", response.results.get(0).get("name"));
+        assertEquals(2, response.getResults().size());
+        assertEquals("Luke Skywalker", response.getResults().get(0).get("name"));
         verify(swapiService).getResources(resource, page, limit);
     }
 
@@ -61,7 +61,7 @@ class ResourceControllerTest {
         SwapiFilterResponse response = (SwapiFilterResponse) responseEntity.getBody();
 
         assertNotNull(response);
-        assertEquals(1, response.total_records);
+        assertEquals(1, response.getTotal_records());
         verify(swapiService).getResourcesByName(resource, page, limit, name);
     }
 

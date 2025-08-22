@@ -42,11 +42,11 @@ class SwapiServiceTest {
 
         SwapiResponse response = swapiService.getResources(resource, page, limit);
 
-        assertEquals(2, response.total_records);
-        assertEquals(1, response.total_pages);
-        assertEquals(1, response.current_page);
-        assertEquals(2, response.results.size());
-        assertEquals("Luke Skywalker", response.results.get(0).get("name"));
+        assertEquals(2, response.getTotal_records());
+        assertEquals(1, response.getTotal_pages());
+        assertEquals(1, response.getCurrent_page());
+        assertEquals(2, response.getResults().size());
+        assertEquals("Luke Skywalker", response.getResults().get(0).get("name"));
         verify(restTemplate).getForEntity(eq(expectedUri), eq(SwapiResponse.class));
     }
 
@@ -66,10 +66,10 @@ class SwapiServiceTest {
         SwapiFilterResponse result = swapiService.getResourcesByName(resource, page, limit, name);
 
         assertNotNull(result);
-        assertEquals(1, result.total_records);
-        assertEquals(1, result.total_pages); // Since 2 items, limit 10
-        assertEquals(1, result.current_page);;
-        assertEquals(1, result.getResult().size()); // Full list since page 1, limit 10
+        assertEquals(1, result.getTotal_records());
+        assertEquals(1, result.getTotal_pages());
+        assertEquals(1, result.getCurrent_page());
+        assertEquals(1, result.getResult().size());
         verify(restTemplate).getForEntity(eq(expectedUri), eq(SwapiFilterResponse.class));
     }
 
