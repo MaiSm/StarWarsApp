@@ -23,4 +23,20 @@ public class SwapiResult {
     public void setProperties(Map<String, Object> properties) {
         this.properties = properties;
     }
+
+    public Map<String, Object> getProperties() {
+        return properties;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public String getUid() {
+        return uid;
+    }
+
+    public String get_id() {
+        return _id;
+    }
 }
