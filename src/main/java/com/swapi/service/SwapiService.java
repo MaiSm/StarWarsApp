@@ -13,15 +13,18 @@ import java.util.List;
 @Service
 public class SwapiService {
 
-    private final RestTemplate restTemplate = new RestTemplate();
+    private final RestTemplate restTemplate;
     private static final String BASE = "https://www.swapi.tech/api";
 
+    public SwapiService(RestTemplate restTemplate) {
+        this.restTemplate = restTemplate;
+    }
     public SwapiResponse getResources(String resource, Integer page, Integer limit) {
 
         UriComponentsBuilder uri = UriComponentsBuilder.fromHttpUrl(BASE + "/" + resource)
                 .queryParam("page", page)
                 .queryParam("limit", limit);
-
+        System.out.println("URL -> " + uri.toUriString());
         ResponseEntity<SwapiResponse> response = restTemplate.getForEntity(uri.toUriString(), SwapiResponse.class);
 
         return response.getBody();
