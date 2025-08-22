@@ -16,6 +16,8 @@ import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 
+import java.util.Map;
+
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
@@ -82,12 +84,17 @@ class AuthControllerTest {
         UserDetails mockUser = TestUtil.mockUser();
         when(userDetailsService.loadUserByUsername("luke")).thenReturn(mockUser);
 
-        BadCredentialsException exception = assertThrows(BadCredentialsException.class,
-                () -> authController.login(req));
+        ResponseEntity<?> response = authController.login(req);
 
-        assertEquals("Not valid credentials", exception.getMessage());
+        assertEquals(HttpStatus.UNAUTHORIZED, response.getStatusCode());
+        assertTrue(response.getBody() instanceof Map);
+
+        Map<?, ?> errorResponse = (Map<?, ?>) response.getBody();
+        assertEquals("Invalid username or password", errorResponse.get("error"));
+
         verify(userDetailsService).loadUserByUsername("luke");
     }
+
 
     @Test
     void login_withUnknownUser() {
@@ -97,10 +104,15 @@ class AuthControllerTest {
 
         when(userDetailsService.loadUserByUsername("unknown")).thenReturn(null);
 
-        BadCredentialsException exception = assertThrows(BadCredentialsException.class,
-                () -> authController.login(req));
+        ResponseEntity<?> response = authController.login(req);
 
-        assertEquals("Not valid credentials", exception.getMessage());
+        assertEquals(HttpStatus.UNAUTHORIZED, response.getStatusCode());
+        assertTrue(response.getBody() instanceof Map);
+
+        Map<?, ?> errorResponse = (Map<?, ?>) response.getBody();
+        assertEquals("Invalid username or password", errorResponse.get("error"));
+
         verify(userDetailsService).loadUserByUsername("unknown");
     }
+
 }

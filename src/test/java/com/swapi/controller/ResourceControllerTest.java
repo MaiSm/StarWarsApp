@@ -73,9 +73,11 @@ class ResourceControllerTest {
 
         when(swapiService.getById(resource, id)).thenReturn(mockObject);
 
-        Object response = controller.getResourceById(resource, id);
+        ResponseEntity<?> responseEntity = controller.getResourceById(resource, id);
 
-        assertSame(mockObject, response);
+        assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
+        assertSame(mockObject, responseEntity.getBody());
+
         verify(swapiService).getById(resource, id);
     }
 }
