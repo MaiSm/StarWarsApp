@@ -3,12 +3,16 @@ package com.swapi.service;
 import com.swapi.dto.SwapiFilterResponse;
 import com.swapi.dto.SwapiResponse;
 import com.swapi.dto.SwapiResult;
+import com.swapi.enums.Resources;
+import com.swapi.exceptions.ResourceNotFoundException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 @Service
 public class SwapiService {
@@ -19,20 +23,35 @@ public class SwapiService {
     public SwapiService(RestTemplate restTemplate) {
         this.restTemplate = restTemplate;
     }
-    public SwapiResponse getResources(String resource, Integer page, Integer limit) {
+
+    public Object getResources(String resource, Integer page, Integer limit) {
+
+        Resources.fromValue(resource);
 
         UriComponentsBuilder uri = UriComponentsBuilder.fromHttpUrl(BASE + "/" + resource)
                 .queryParam("page", page)
                 .queryParam("limit", limit);
 
-        ResponseEntity<SwapiResponse> response = restTemplate.getForEntity(uri.toUriString(), SwapiResponse.class);
-        SwapiResponse body = response.getBody();
 
-        if(body != null){
-            body.setCurrent_page(page);
+        if ("films".equalsIgnoreCase(resource)) {
+            ResponseEntity<SwapiFilterResponse> res =
+                    restTemplate.getForEntity(uri.toUriString(), SwapiFilterResponse.class);
+            SwapiFilterResponse response = res.getBody();
+
+            if (response == null) {
+                throw new NoSuchElementException("There is no response");
+            }
+            return formatResult(response, page, limit);
         }
 
-        return body;
+        ResponseEntity<SwapiResponse> res = restTemplate.getForEntity(uri.toUriString(), SwapiResponse.class);
+        SwapiResponse response = res.getBody();
+
+        if(response != null){
+            response.setCurrent_page(page);
+        }
+
+        return response;
     }
 
     public SwapiFilterResponse getResourcesByName(String resource, Integer page, Integer limit, String name) {
@@ -42,11 +61,25 @@ public class SwapiService {
 
         ResponseEntity<SwapiFilterResponse> res = restTemplate.getForEntity(uri.toUriString(), SwapiFilterResponse.class);
 
+        SwapiFilterResponse response = res.getBody();
+
+        if (response == null) {
+            throw new NoSuchElementException("There is no response");
+        }
+
+        return formatResult(response, page, limit);
+    }
+
+    public Object getById(String resource, String id) {
+        String url = BASE + "/" + resource + "/" + id;
+        return restTemplate.getForObject(url, Object.class);
+    }
+
+    public SwapiFilterResponse formatResult (SwapiFilterResponse response, Integer page, Integer limit){
+
         int total_records = 0;
         int total_pages = 0;
         List<SwapiResult> pagedResult = new ArrayList<>();
-
-        SwapiFilterResponse response = res.getBody();
 
         if (response.getResult() != null){
 
@@ -66,11 +99,6 @@ public class SwapiService {
         response.setResult(pagedResult);
 
         return response;
-    }
-
-    public Object getById(String resource, String id) {
-        String url = BASE + "/" + resource + "/" + id;
-        return restTemplate.getForObject(url, Object.class);
     }
 
 }

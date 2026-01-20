@@ -40,7 +40,7 @@ class SwapiServiceTest {
         when(restTemplate.getForEntity(eq(expectedUri), eq(SwapiResponse.class)))
                 .thenReturn(new ResponseEntity<>(mockResponse, HttpStatus.OK));
 
-        SwapiResponse response = swapiService.getResources(resource, page, limit);
+        SwapiResponse response = (SwapiResponse)swapiService.getResources(resource, page, limit);
 
         assertEquals(2, response.getTotal_records());
         assertEquals(1, response.getTotal_pages());
