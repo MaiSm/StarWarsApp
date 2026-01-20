@@ -7,6 +7,12 @@ import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.security.SecurityScheme;
 import org.springframework.context.annotation.Configuration;
 
+import io.swagger.v3.oas.models.OpenAPI;
+import io.swagger.v3.oas.models.servers.Server;
+import org.springframework.context.annotation.Bean;
+
+import java.util.Arrays;
+
 @Configuration
 @OpenAPIDefinition(
         info = @Info(title = "Star Wars API", version = "v1"),
@@ -19,4 +25,11 @@ import org.springframework.context.annotation.Configuration;
         bearerFormat = "JWT"
 )
 public class SwaggerConfig {
+    @Bean
+    public OpenAPI customOpenAPI() {
+        return new OpenAPI()
+                .servers(Arrays.asList(
+                        new Server().url("https://starwarsapp-production.up.railway.app")
+                ));
+    }
 }
